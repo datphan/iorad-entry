@@ -1,0 +1,54 @@
+teracy-dev:
+  extensions:
+    - _id: "entry-0"
+      path:
+        extension: teracy-dev-essential
+      location:
+        git: https://github.com/teracyhq-incubator/teracy-dev-essential.git
+        branch: v0.1.0
+      require_version: ">= 0.1.0"
+      enabled: true
+
+    - _id: "vagrant-0"
+      path:
+        lookup: workspace
+        extension: vagrant-vm
+      location:
+        git: https://github.com/datphan/vagrant-vm.git
+        branch: develop
+      require_version: ">= 0.1.0"
+      enabled: true
+
+vagrant:
+  plugins:
+    # install and enable vagrant-hostmanager plugin
+    - _id: "essential-0"
+      state: installed
+      name: vagrant-hostmanager
+      enabled: true
+      options:
+          aliases: # set domain aliases for the master node
+            - dev.iorad.local
+
+default:
+  vm:
+    networks:
+      - _id: "0"
+        type: "public_network"
+
+  providers:
+    - _id: "0"
+      enabled: true
+      type: virtualbox
+      memory: 2048
+
+vagrant-vm:
+  docker:
+    enabled: true
+
+    # entries:
+    #   - _id: "0"
+    #     host: registry.gitlab.com
+    #     force: false
+    #     username: <your username>
+    #     password: <your password>
