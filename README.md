@@ -3,51 +3,102 @@
 
 
 1. Set up the first entry
-	```
-	$ git clone https://github.com/teracyhq/dev.git iorad-dev-new
-	$ cd iorad-dev-new
-	```
+    ```
+    $ git clone https://github.com/teracyhq/dev.git iorad-dev-new
+    $ cd iorad-dev-new
+    ```
 
 
-	Set up the `workspace/teracy-dev-entry` if it is not exits
-	```
-	$ TERACY_DEV_ENTRY_LOCATION_GIT=https://github.com/datphan/iorad-entry.git TERACY_DEV_ENTRY_LOCATION_BRANCH=develop TERACY_DEV_ENTRY_LOCATION_SYNC=true vagrant status
-	```
+    Set up the `workspace/teracy-dev-entry` if it is not exist
+    ```
+    $ TERACY_DEV_ENTRY_LOCATION_GIT=https://github.com/datphan/iorad-entry.git TERACY_DEV_ENTRY_LOCATION_BRANCH=develop TERACY_DEV_ENTRY_LOCATION_SYNC=true vagrant status
+    ```
 
-	NOTE: make sure `workspace/teracy-dev-entry` is up to date
+    NOTE: make sure `workspace/teracy-dev-entry` is up to date if exist
 
-2. Edit your gitlab username, password at `vagrant-vm.docker.entries`
-	
-	Edit directly at `teracy-dev-entry/config_default.yaml` or create `config_override.yaml` and put in:
+2. Setting up you app
+    
+    Edit directly at `teracy-dev-entry/config_default.yaml` or better create `config_override.yaml` and put in:
 
-	```
-	vagrant-vm:
-	  docker:
-	    enabled: true
-	    entries:
-	      - _id: "0"
-	        host: registry.gitlab.com
-	        force: false
-	        username: <your username>
-	        password: <your password>
-	```
+    ```
+    variables:
+      gs_access_key_id: # fill yours
+      gs_secret_access_key: # fill yours
+      gs_project_id: teracy-iorad
+      github_name: # fill yours
+      gitlab_username: # fill yours
+      gitlab_password: # fill yours
+
+    vagrant-vm:
+      docker:
+        entries:
+          - _id: "0"
+            host: registry.gitlab.com
+            force: false
+            username: %{gitlab_username}
+            password: %{gitlab_password}
+    ```
+
+    Init iorad app
+
+    ```
+    $ cd workspace/
+    $ git clone <iorad-repo>
+    ```
 
 3. Start your VM
 
-	```
-	$ vagrant up
-	$ vagrant hostmanager
-	```
+    ```
+    $ vagrant up
+    $ vagrant hostmanager
+    ```
 
 4. Start the app inside the VM
-	```
-	$ vagrant ssh
-	$ cd /vagrant/workspace/iorad
-	$ ./data.sh restore upstream develop
-	$ docker-compose up -d dev
-	$ docker-compose logs -f webpack dev
-	```
+    ```
+    $ vagrant ssh
+    $ cd /vagrant/workspace/iorad
+    ```
 
-It will take a long time for `webpack` to complete running: yarn install, ...
+    Restore data first
+    ```
+    $ ./data.sh restore upstream develop
 
-When it done, open http://dev.iorad.local/
+    ```
+
+    Then run dev mode
+    ```
+    $ docker-compose up -d dev
+    $ docker-compose logs -f webpack dev
+    ```
+
+  It will take a long time for `webpack` to complete install node packages
+
+  When it done, open http://dev.iorad.local/
+
+# Debug
+
+When you encounter errors or the app stop working
+
+1. View the log
+
+  ```
+  $ docker-compose ps
+  $ docker-compose logs -f dev
+  $ # or docker-compose logs -f webpack
+  ```
+
+2. If the `app` service is stop working
+  Open `iorad/packages.json` and changes these package version like:
+
+  ```
+  # "grunt-contrib-imagemin": "~2.0.0"
+  # "grunt-ucss": "~0.1.4"
+  ```
+
+2. If the `dev` service stop working, start it again
+
+  ```
+  $ docker-compose stop dev
+  $ docker-compose up -d dev
+  $ # or docker-compose exec dev yarn run dev
+  ```
