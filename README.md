@@ -6,8 +6,15 @@
 	```
 	$ git clone https://github.com/teracyhq/dev.git iorad-dev-new
 	$ cd iorad-dev-new
+	```
+
+
+	Set up the `workspace/teracy-dev-entry` if it is not exits
+	```
 	$ TERACY_DEV_ENTRY_LOCATION_GIT=https://github.com/datphan/iorad-entry.git TERACY_DEV_ENTRY_LOCATION_BRANCH=develop TERACY_DEV_ENTRY_LOCATION_SYNC=true vagrant status
 	```
+
+	NOTE: make sure `workspace/teracy-dev-entry` is up to date
 
 2. Edit your gitlab username, password at `vagrant-vm.docker.entries`
 	
@@ -36,6 +43,7 @@
 	```
 	$ vagrant ssh
 	$ cd /vagrant/workspace/iorad
+	$ ./data.sh restore upstream develop
 	$ docker-compose up -d dev
 	$ docker-compose logs -f webpack dev
 	```

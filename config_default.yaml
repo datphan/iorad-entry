@@ -1,3 +1,18 @@
+#
+# NOTICES: You better create config_override.yaml file,
+# and copy you would be edit content in to it, then modify you configs there
+#
+
+# you can export these variable at you host machine, or edit it directly here
+variables:
+  gs_access_key_id: "${GS_ACCESS_KEY_ID}"
+  gs_secret_access_key: ${GS_SECRET_ACCESS_KEY}
+  gs_project_id: ${GS_PROJECT_ID}
+  github_name: ${GITHUB_USERNAME}
+  gitlab_username: ${GITLAB_USERNAME}
+  gitlab_password: ${GITLAB_PASSWORD}
+
+
 teracy-dev:
   extensions:
     - _id: "entry-0"
@@ -50,5 +65,42 @@ vagrant-vm:
     #   - _id: "0"
     #     host: registry.gitlab.com
     #     force: false
-    #     username: <your username>
-    #     password: <your password>
+    #     username: %{gitlab_username}
+    #     password: %{gitlab_password}
+
+  enviroment:
+    items:
+      - _id: "0"
+        prefix: iorad_data_storage
+        subfix: 
+        items:
+          local: "file:///backups/%{github_name}/iorad"
+          origin: "gs://ds-%{github_name}-iorad"
+          upstream: "gs://ds-iorad-iorad"
+
+      - _id: "1"
+        prefix: iorad_data_usage
+        subfix: 
+        items:
+          storage: "upstream"
+          time: 
+          force_reset: false
+
+      - _id: "2"
+        prefix: gs
+        subfix: 
+        items:
+          access_key_id: "%{gs_access_key_id}"
+          secret_access_key: "%{gs_secret_access_key}"
+          project_id: "%{gs_project_id}"
+
+  template:
+    enabled: true
+    items:
+      - _id: "0"
+        lookup: workspace
+        filename: "teracy-dev-entry/templates/boto.tpl"
+        values:
+          access_key: "%{gs_access_key_id}"
+          secret_key: "%{gs_secret_access_key}"
+          project_id: "%{gs_project_id}"
