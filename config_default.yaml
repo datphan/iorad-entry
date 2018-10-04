@@ -1,9 +1,9 @@
 #
 # NOTICES: You better create config_override.yaml file,
-# and copy you would be edit content in to it, then modify you configs there
+# and copy you would be edit content in to it, then modify your configs there
 #
 
-# you can export these variable at you host machine, or edit it directly here
+# you can export these variable at your host machine, or edit it directly here
 variables:
   gs_access_key_id: ${GS_ACCESS_KEY_ID}
   gs_secret_access_key: ${GS_SECRET_ACCESS_KEY}
@@ -44,6 +44,11 @@ vagrant:
       options:
           aliases: # set domain aliases for the master node
             - dev.iorad.local
+            - cdn.iorad.local
+            - webpack.iorad.local
+            - mail.iorad.local
+            - phpmyadmin.iorad.local
+            - storage.iorad.local
 
 default:
   vm:
@@ -65,10 +70,18 @@ vagrant-vm:
     #   - _id: "0"
     #     host: registry.gitlab.com
     #     force: false
-    #     username: %{gitlab_username}
-    #     password: %{gitlab_password}
+    #     username: "%{gitlab_username}"
+    #     password: "%{gitlab_password}"
+
+  proxy:
+    enabled: true
+    config_files:
+      - _id: "0"
+        lookup: workspace
+        filename: "teracy-dev-entry/files/nginx.conf"
 
   enviroment:
+    enabled: true
     items:
       - _id: "0"
         prefix: iorad_data_storage
@@ -104,3 +117,4 @@ vagrant-vm:
           access_key: "%{gs_access_key_id}"
           secret_key: "%{gs_secret_access_key}"
           project_id: "%{gs_project_id}"
+

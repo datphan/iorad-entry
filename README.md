@@ -87,15 +87,15 @@ When you encounter errors or the app stop working
   $ # or docker-compose logs -f webpack
   ```
 
-2. If the `app` service is stop working
-  Open `iorad/packages.json` and changes these package version like:
+2. Try this step if the `app` service is not working
+  Copy the content at [files/package.json](files/package.json) to `iorad/packages.json`
 
+  Open `iorad/run-app.sh`, replace `npm install --only-dev` to:
   ```
-  # "grunt-contrib-imagemin": "~2.0.0"
-  # "grunt-ucss": "~0.1.4"
+  # npm install --no-bin-links --only=dev
   ```
 
-2. If the `dev` service stop working, start it again
+3. If the `dev` service stop working, start it again
 
   ```
   $ docker-compose stop dev
