@@ -52,7 +52,21 @@
     ```
     $ GITLAB_USERNAME=username GITLAB_PASSWORD=password vagrant up
     $ # or vagrant up # if you has input your credentials in the config already
-    $ vagrant hostmanager
+    ```
+
+    Make sure the content of yours `/etc/hosts` are clean, open `/etc/hosts` and check if it has some thing like this:
+    ```
+    ## vagrant-hostmanager-start id: 7ad31f5b-223b-4673-9f93-54d6f940a1ea
+    192.168.1.88  dev.iorad.local
+    ...
+    ...
+    ## vagrant-hostmanager-end
+    ```
+
+    Lets delete all of it, then
+
+    ```
+    $ vagrant hostamanger
     ```
 
 4. Start the app **inside the VM**
@@ -90,12 +104,18 @@ When you encounter errors or the app stop working
   ```
 
 2. Try this step if the `app` service is not working
-  Copy the content at [files/package.json](files/package.json) to `iorad/packages.json`
+  
+  - You should copy the content at [files/package.json](files/package.json) to `iorad/packages.json`
 
-  Open `iorad/run-app.sh`, replace `npm install --only-dev` to:
-  ```
-  # npm install --no-bin-links --only=dev
-  ```
+  - If there are `symlink` errors, open `iorad/run-app.sh` and replace `npm install --only-dev` to:
+    ```
+    # npm install --no-bin-links --only=dev
+    ```
+
+  - The `app` needs to keep running, if its not, add this line to the end of `iorad/run-app.sh`
+    ```
+    tail -f /dev/null && wait
+    ```
 
 3. If the `dev` service stop working, start it again
 

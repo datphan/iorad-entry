@@ -65,6 +65,7 @@ default:
       enabled: true
       type: virtualbox
       memory: 2048
+      cpus: 2
 
 vagrant-vm:
   docker:
@@ -112,7 +113,7 @@ vagrant-vm:
           project_id: "%{gs_project_id}"
 
   template:
-    enabled: true
+    enabled: false
     items:
       - _id: "0"
         lookup: workspace
