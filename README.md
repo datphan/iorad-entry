@@ -105,7 +105,7 @@ When you encounter errors or the app stop working
 
 2. Try this step if the `app` service is not working
   
-  - You should copy the content at [files/package.json](files/package.json) to `iorad/packages.json`
+  - You should copy the content at [files/package.json](files/package.json) to `iorad/package.json`
 
   - If there are `symlink` errors, open `iorad/run-app.sh` and replace `npm install --only-dev` to:
     ```
@@ -117,10 +117,14 @@ When you encounter errors or the app stop working
     tail -f /dev/null && wait
     ```
 
-3. If the `dev` service stop working, start it again
+3. If the `dev` service stop working
+  - If there are connection errors showing up:
 
-  ```
-  $ docker-compose stop dev
-  $ docker-compose up -d dev
-  $ # or docker-compose exec dev yarn run dev
-  ```
+    Copy the content at [files/connect.js](files/connect.js) to `iorad/node/api/services/stripe/connect.js`
+
+  - Start it again:
+    ```
+    $ docker-compose stop dev
+    $ docker-compose up -d dev
+    $ # or docker-compose exec dev yarn run dev
+    ```

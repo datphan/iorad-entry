@@ -1,6 +1,6 @@
 #
 # NOTICES: You better create config_override.yaml file,
-# and copy you would be edit content in to it, then modify your configs there
+# and copy your would be edit content in to it, then modify your configs there
 #
 
 # you can export these variable at your host machine, or edit it directly here
