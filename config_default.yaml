@@ -12,9 +12,13 @@ variables:
   gitlab_username: ${GITLAB_USERNAME}
   gitlab_password: ${GITLAB_PASSWORD}
 
-
 teracy-dev:
   extensions:
+    - _id: "0"
+      location:
+        git: https://github.com/teracyhq-incubator/teracy-dev-core.git
+        branch: develop
+
     - _id: "entry-0"
       path:
         extension: teracy-dev-essential

@@ -36,8 +36,8 @@
           - _id: "0"
             host: registry.gitlab.com
             force: false
-            username: %{gitlab_username}
-            password: %{gitlab_password}
+            username: "%{gitlab_username}"
+            password: "%{gitlab_password}"
     ```
 
     Init iorad app
@@ -50,8 +50,8 @@
 3. Start your VM
 
     ```
-    $ vagrant up
-    $ # or GITLAB_USERNAME=username GITLAB_PASSWORD=password vagrant up # if you don't want to expose it
+    $ GITLAB_USERNAME=username GITLAB_PASSWORD=password vagrant up
+    $ # or vagrant up # if you has input your credentials in the config already
     $ vagrant hostmanager
     ```
 
