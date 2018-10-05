@@ -6,6 +6,7 @@
     ```
     $ git clone https://github.com/teracyhq/dev.git iorad-dev-new
     $ cd iorad-dev-new
+    $ git checkout develop
     ```
 
 
@@ -26,8 +27,8 @@
       gs_secret_access_key: # fill yours
       gs_project_id: teracy-iorad
       github_name: # fill yours
-      gitlab_username: # fill yours
-      gitlab_password: # fill yours
+      gitlab_username: ${GITLAB_USERNAME:-username} # fill yours
+      gitlab_password: ${GITLAB_PASSWORD:-password} # fill yours
 
     vagrant-vm:
       docker:
@@ -50,10 +51,11 @@
 
     ```
     $ vagrant up
+    $ # or GITLAB_USERNAME=username GITLAB_PASSWORD=password vagrant up # if you don't want to expose it
     $ vagrant hostmanager
     ```
 
-4. Start the app inside the VM
+4. Start the app **inside the VM**
     ```
     $ vagrant ssh
     $ cd /vagrant/workspace/iorad
