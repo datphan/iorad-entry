@@ -53,21 +53,19 @@
     $ GITLAB_USERNAME=username GITLAB_PASSWORD=password vagrant up
     $ # or vagrant up # if you has input your credentials in the config already
     ```
-
-    Make sure the content of yours `/etc/hosts` are clean, open `/etc/hosts` and check if it has some thing like this:
-    ```
-    ## vagrant-hostmanager-start id: 7ad31f5b-223b-4673-9f93-54d6f940a1ea
-    192.168.1.88  dev.iorad.local
-    ...
-    ...
-    ## vagrant-hostmanager-end
-    ```
-
-    Lets delete all of it, then
+    Then
 
     ```
     $ vagrant hostamanger
     ```
+
+    NOTE: make sure your old iorad-dev hostnames are clean in `/etc/hosts`, make your in the old `iorad-dev` you run:
+
+    ```
+    $ vagrant halt
+    $ vagrant hostmanager
+    $ # or better just $ vagrant destroy -f
+    ``
 
 4. Start the app **inside the VM**
     ```
